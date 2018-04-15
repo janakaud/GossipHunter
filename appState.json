@@ -1,0 +1,314 @@
+{
+  "EDITOR_STATE": {
+    "allProjectFiles": {
+      "d43f3ad9-8dc7-4948-be3d-d9b296427b3d": {
+        "id": "d43f3ad9-8dc7-4948-be3d-d9b296427b3d",
+        "parent": null,
+        "name": "GossipHunter",
+        "type": "DIRECTORY",
+        "isDirectory": true,
+        "children": [
+          "8eccecc4-9205-4562-b2ed-f47d218465ce"
+        ],
+        "isRemovable": false,
+        "filePath": "GossipHunter"
+      },
+      "8eccecc4-9205-4562-b2ed-f47d218465ce": {
+        "id": "8eccecc4-9205-4562-b2ed-f47d218465ce",
+        "parent": "d43f3ad9-8dc7-4948-be3d-d9b296427b3d",
+        "name": "lambda.js",
+        "type": "LAMBDA_FILE",
+        "isDirectory": false,
+        "children": [],
+        "isRemovable": true,
+        "filePath": "GossipHunter/lambda.js",
+        "code": "let AWS = require('aws-sdk');\nlet requests = require('requests');\n\nexports.handler = function(event, context, callback) {\n\trequests.get(\"https://newsapi.org/v2/top-headlines?sources=entertainment-weekly&apiKey=\")\n\t.then(response => {\nconsole.log(response);\n\t\tcallback(null,'Successfully executed');\n\t})\n}",
+        "triggers": [
+          {
+            "resourceName": "cwegossipsWeekends",
+            "config": {}
+          }
+        ],
+        "config": {
+          "memory": 128,
+          "timeout": 60,
+          "runtime": "nodejs8.10"
+        },
+        "version": 148,
+        "syncVersion": 39,
+        "testCases": {
+          "7fe738ea-b193-45a7-86b9-15c885b067f9": {
+            "id": "7fe738ea-b193-45a7-86b9-15c885b067f9",
+            "name": "test",
+            "functionId": "8eccecc4-9205-4562-b2ed-f47d218465ce",
+            "event": "{}"
+          }
+        }
+      }
+    },
+    "rootNode": "d43f3ad9-8dc7-4948-be3d-d9b296427b3d",
+    "openFiles": [
+      "8eccecc4-9205-4562-b2ed-f47d218465ce"
+    ],
+    "currentFileId": "8eccecc4-9205-4562-b2ed-f47d218465ce",
+    "resources": {
+      "cwegossipsWeekdays": {
+        "name": "cwegossipsWeekdays",
+        "type": "CLOUD_WATCH",
+        "config": {
+          "mode": 0,
+          "name": "gossipsWeekdays",
+          "description": "",
+          "scheduleExpression": "cron(0,15,30,45 5-7,19-23 * * MON-FRI *)"
+        },
+        "globallyEditable": true
+      },
+      "cwegossipsWeekends": {
+        "name": "cwegossipsWeekends",
+        "type": "CLOUD_WATCH",
+        "config": {
+          "mode": 0,
+          "name": "gossipsWeekends",
+          "description": "",
+          "scheduleExpression": "cron(0/10 5-23 * * FRI *)"
+        },
+        "globallyEditable": true
+      }
+    },
+    "envVariables": [
+      {
+        "lambdaId": "all",
+        "varKey": "SIGMA_AWS_ACC_ID",
+        "varValue": "",
+        "editable": false
+      },
+      {
+        "lambdaId": "8eccecc4-9205-4562-b2ed-f47d218465ce",
+        "varKey": "KEY",
+        "varValue": "",
+        "editable": true
+      }
+    ],
+    "packageJSON": {
+      "dependencies": {
+        "aws-sdk": {
+          "name": "aws-sdk",
+          "version": "2.176.0",
+          "notRemovable": true
+        },
+        "requests": {
+          "name": "requests",
+          "downloadsLast30Days": 4118,
+          "downloadsRatio": 0.00002010495770516508,
+          "humanDownloadsLast30Days": "4.1k",
+          "popular": false,
+          "version": "0.2.2",
+          "versions": {
+            "0.0.1": "2014-03-29T05:49:07.412Z",
+            "0.1.0": "2015-04-07T09:55:33.997Z",
+            "0.1.1": "2015-04-07T12:40:57.798Z",
+            "0.1.2": "2015-05-06T18:37:22.794Z",
+            "0.1.3": "2015-05-12T13:43:33.928Z",
+            "0.1.4": "2015-05-12T18:48:59.325Z",
+            "0.1.5": "2015-05-18T18:26:53.425Z",
+            "0.1.6": "2015-05-28T08:32:21.371Z",
+            "0.1.7": "2015-09-17T14:51:48.929Z",
+            "0.2.0": "2017-06-08T15:03:22.390Z",
+            "0.2.1": "2017-06-13T14:04:55.060Z",
+            "0.2.2": "2017-06-13T20:35:07.545Z"
+          },
+          "tags": {
+            "latest": "0.2.2"
+          },
+          "description": "An streaming XHR abstraction that works in browsers and node.js",
+          "dependencies": {
+            "axo": "0.0.x",
+            "eventemitter3": "~2.0.2",
+            "extendible": "0.1.x",
+            "hang": "1.0.x",
+            "loads": "0.0.x",
+            "node-http-xhr": "~1.3.0",
+            "xhr-send": "1.0.x"
+          },
+          "devDependencies": {
+            "argh": "0.1.x",
+            "assume": "~1.5.0",
+            "async-each": "~1.0.1",
+            "browserify": "^14.3.0",
+            "http-proxy": "~1.16.2",
+            "istanbul": "~0.4.5",
+            "mocha": "~3.4.0",
+            "mochify": "~2.18.1",
+            "pre-commit": "~1.2.0",
+            "setheader": "0.0.x"
+          },
+          "repository": {
+            "url": "https://github.com/unshiftio/requests",
+            "project": "requests",
+            "user": "unshiftio",
+            "host": "github.com",
+            "path": "",
+            "head": "0793edf4bbdc6d94aa4f15172192f32a60d1d9da",
+            "branch": "0793edf4bbdc6d94aa4f15172192f32a60d1d9da"
+          },
+          "githubRepo": {
+            "user": "unshiftio",
+            "project": "requests",
+            "path": "",
+            "head": "0793edf4bbdc6d94aa4f15172192f32a60d1d9da"
+          },
+          "gitHead": "0793edf4bbdc6d94aa4f15172192f32a60d1d9da",
+          "readme": "# requests\n\n[![Made by unshift][made-by]](http://unshift.io)[![Version npm][version]](http://browsenpm.org/package/requests)[![Build Status][build]](https://travis-ci.org/unshiftio/requests)[![Dependencies][david]](https://david-dm.org/unshiftio/requests)[![Coverage Status][cover]](https://coveralls.io/r/unshiftio/requests?branch=master)[![IRC channel][irc]](http://webchat.freenode.net/?channels=unshift)\n\n[made-by]: https://img.shields.io/badge/made%20by-unshift-00ffcc.svg?style=flat-square\n[version]: https://img.shields.io/npm/v/requests.svg?style=flat-square\n[build]: https://img.shields.io/travis/unshiftio/requests/master.svg?style=flat-square\n[david]: https://img.shields.io/david/unshiftio/requests.svg?style=flat-square\n[cover]: https://img.shields.io/coveralls/unshiftio/requests/master.svg?style=flat-square\n[irc]: https://img.shields.io/badge/IRC-irc.freenode.net%23unshift-00a8ff.svg?style=flat-square\n\nRequests is a small library that implements fully and true streaming XHR for\nbrowsers that support these methods. It uses a variety of proprietary\n`responseType` properties to force a streaming connection, even for binary data.\nFor browsers that don't support this we will simply fallback to a regular but\n**async** XHR 1/2 request or ActiveXObject in even older deprecated browsers.\n\n- Internet Explorer >= 10: `ms-stream`\n- FireFox >= 9: `moz-chunked`\n- FireFox < 20: `multipart`\n\nThis module comes with build-in protection against ActiveX blocking that is\nfrequently used in firewalls & virus scanners.\n\n## Installation\n\nThe module is released in the public npm registry and can be installed using:\n\n```\nnpm install --save requests\n```\n\n## Usage\n\nThe API is a mix between the Fetch API, mixed with EventEmitter API for the\nevent handling.\n\n```js\n'use strict';\n\nvar requests = require('requests');\n```\n\nNow that we've included the library we can start making requests. The exported\nmethod accepts 2 arguments:\n\n- **url** Required URL that you want to have requested.\n- **options** Optional object with additional configuration options:\n  - **streaming** Should we use streaming API's to fetch the data, defaults to\n  `false`.\n  - **method** The HTTP method that should be used to get the contents, defaults\n  to `GET`.\n  - **mode** The request mode, defaults to `cors`\n  - **headers** Object with header name/value that we need to send to the server.\n  - **timeout** The timeout in ms before we should abort the request.\n  - **manual** Manually `open` the request, defaults to `false`.\n\n```js\nrequests('https://google.com/foo/bar', { streaming })\n.on('data', function (chunk) {\n  console.log(chunk)\n})\n.on('end', function (err) {\n  if (err) return console.log('connection closed due to errors', err);\n\n  console.log('end');\n});\n```\n\n## Events\n\nIn the example above you can see the that we're listing to various of events.\nThe following events are emitted:\n\n- `data` A new chunk of data has been received. It can be a small chunk but also\n  the full response depending on the environment it's loaded in.\n- `destroy` The request instance has been fully destroyed.\n- `error` An error occurred while requesting the given URL.\n- `end` Done with requesting the URL. An error argument can be supplied if the\n  connection was closed due to an error.\n- `before` Emitted before we send the actual request.\n- `send` Emitted after we've succesfully started the sending of the data.\n\n### requests#destroy\n\nDestroy the running XHR request and release all the references that the\n`requests` instance holds. It returns a boolean as indication of a successful\ndestruction.\n\n```js\nrequests.destroy();\n```\n\n### Requests.requested\n\nThe total amount of requests that we've made in this library. It also serves as\nunique id for each request that we store in `.active`.\n\n### Requests.active\n\nAn object that contains all running and active requests. Namespaced under\n`request.requested` id and the requests instance.\n\n## License\n\nMIT\n",
+          "owner": {
+            "name": "unshiftio",
+            "avatar": "https://github.com/unshiftio.png",
+            "link": "https://github.com/unshiftio"
+          },
+          "deprecated": false,
+          "homepage": null,
+          "license": "MIT",
+          "keywords": [
+            "request",
+            "xhr",
+            "requests",
+            "http",
+            "xml",
+            "xmlhttp",
+            "xmlhttprequest"
+          ],
+          "computedKeywords": [],
+          "computedMetadata": {},
+          "created": 1396072147412,
+          "modified": 1497386107545,
+          "lastPublisher": {
+            "name": "swaagie",
+            "email": "info@martijnswaagman.nl",
+            "avatar": "https://gravatar.com/avatar/54b947d7bdea95f99c62fbe4fb58abe8",
+            "link": "https://www.npmjs.com/~swaagie"
+          },
+          "owners": [
+            {
+              "email": "info@martijnswaagman.nl",
+              "name": "swaagie",
+              "avatar": "https://gravatar.com/avatar/54b947d7bdea95f99c62fbe4fb58abe8",
+              "link": "https://www.npmjs.com/~swaagie"
+            },
+            {
+              "email": "npm@3rd-Eden.com",
+              "name": "3rdeden",
+              "avatar": "https://gravatar.com/avatar/203075c33f2e68ed3d7bafd3ac0fae3b",
+              "link": "https://www.npmjs.com/~3rdeden"
+            }
+          ],
+          "lastCrawl": "2018-04-13T22:14:47.983Z",
+          "_searchInternal": {
+            "concatenatedName": "requests",
+            "downloadsMagnitude": 4
+          },
+          "dependents": 17,
+          "humanDependents": "17",
+          "changelogFilename": null,
+          "objectID": "requests",
+          "_highlightResult": {
+            "name": {
+              "value": "<em>requests</em>",
+              "matchLevel": "full",
+              "fullyHighlighted": true,
+              "matchedWords": [
+                "requests"
+              ]
+            },
+            "description": {
+              "value": "An streaming XHR abstraction that works in browsers and node.js",
+              "matchLevel": "none",
+              "matchedWords": []
+            },
+            "owner": {
+              "name": {
+                "value": "unshiftio",
+                "matchLevel": "none",
+                "matchedWords": []
+              }
+            },
+            "keywords": [
+              {
+                "value": "request",
+                "matchLevel": "none",
+                "matchedWords": []
+              },
+              {
+                "value": "xhr",
+                "matchLevel": "none",
+                "matchedWords": []
+              },
+              {
+                "value": "<em>requests</em>",
+                "matchLevel": "full",
+                "fullyHighlighted": true,
+                "matchedWords": [
+                  "requests"
+                ]
+              },
+              {
+                "value": "http",
+                "matchLevel": "none",
+                "matchedWords": []
+              },
+              {
+                "value": "xml",
+                "matchLevel": "none",
+                "matchedWords": []
+              },
+              {
+                "value": "xmlhttp",
+                "matchLevel": "none",
+                "matchedWords": []
+              },
+              {
+                "value": "xmlhttprequest",
+                "matchLevel": "none",
+                "matchedWords": []
+              }
+            ],
+            "owners": [
+              {
+                "name": {
+                  "value": "swaagie",
+                  "matchLevel": "none",
+                  "matchedWords": []
+                }
+              },
+              {
+                "name": {
+                  "value": "3rdeden",
+                  "matchLevel": "none",
+                  "matchedWords": []
+                }
+              }
+            ],
+            "_searchInternal": {
+              "concatenatedName": {
+                "value": "<em>requests</em>",
+                "matchLevel": "full",
+                "fullyHighlighted": true,
+                "matchedWords": [
+                  "requests"
+                ]
+              }
+            }
+          }
+        }
+      }
+    },
+    "lambdaId": "8eccecc4-9205-4562-b2ed-f47d218465ce"
+  },
+  "PROJECT_META": {
+    "projectName": "GossipHunter",
+    "projectDescription": "Hot gossips, right in your phone!",
+    "projectVersion": "1.0.0",
+    "projectRegion": "us-east-1",
+    "repoName": "GossipHunter",
+    "repoUrl": "https://github.com/janakaud/GossipHunter",
+    "lastSave": 1523798760002
+  }
+}

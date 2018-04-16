@@ -22,15 +22,15 @@
         "children": [],
         "isRemovable": true,
         "filePath": "GossipHunter/lambda.js",
-        "code": "let AWS = require('aws-sdk');\nlet request = require('request');\n\nexports.handler = function(event, context, callback) {\n\trequest.get(`https://newsapi.org/v2/top-headlines?sources=entertainment-weekly&apiKey=${process.env.KEY}`,\n    (error, response, body) => {\nconsole.log(body);\n\n        callback(null,'Successfully executed');\n    })\n}",
+        "code": "let AWS = require('aws-sdk');\nconst ddb = new AWS.DynamoDB.DocumentClient();\nlet request = require('request');\n\nexports.handler = function (event, context, callback) {\n    request.get(`https://newsapi.org/v2/top-headlines?sources=entertainment-weekly&apiKey=${process.env.KEY}`,\n        (error, response, body) => {\n            let result = JSON.parse(body);\n            if (result.status !== \"ok\") {\n                return callback('NewsAPI call failed!');\n            }\n            result.articles.forEach(article => {\n                ddb.get({\n                    TableName: 'gossips',\n                    Key: { 'url': article.url }\n                }, function (err, data) {\n                    if (err) {\n                        console.log(err);\n                    } else {\n                        console.log(data);\n                    }\n                });\n\n            });\n\n            callback(null, 'Successfully executed');\n        })\n}",
         "triggers": [],
         "config": {
           "memory": 128,
           "timeout": 60,
           "runtime": "nodejs8.10"
         },
-        "version": 132,
-        "syncVersion": 84,
+        "version": 344,
+        "syncVersion": 138,
         "testCases": {
           "4f586679-12a4-409d-8544-db42092888e5": {
             "id": "4f586679-12a4-409d-8544-db42092888e5",
@@ -68,6 +68,39 @@
           "scheduleExpression": "cron(0/10 5-23 ? * SAT,SUN *)"
         },
         "globallyEditable": true
+      },
+      "ddbgossips": {
+        "name": "ddbgossips",
+        "type": "DynamoDB",
+        "config": {
+          "mode": 0,
+          "operation": "get",
+          "table": {
+            "arn": "",
+            "name": "gossips",
+            "partitionKey": "url",
+            "partitionKeyType": "S",
+            "hasSortKey": false,
+            "sortKey": "",
+            "sortKeyType": "S",
+            "mode": 0
+          },
+          "parameters": {
+            "Key": {
+              "url": "@{article.url}"
+            },
+            "Item": {},
+            "ExpressionAttributeValues": {},
+            "KeyConditionExpression": "",
+            "FilterExpression": ""
+          },
+          "validator": {
+            "validatableFields": {},
+            "validity": true
+          },
+          "valid": true
+        },
+        "globallyEditable": false
       }
     },
     "envVariables": [
@@ -453,7 +486,8 @@
         }
       }
     },
-    "lambdaId": "8eccecc4-9205-4562-b2ed-f47d218465ce"
+    "lambdaId": "8eccecc4-9205-4562-b2ed-f47d218465ce",
+    "additionalFiles": []
   },
   "PROJECT_META": {
     "projectName": "GossipHunter",
@@ -462,6 +496,6 @@
     "projectRegion": "us-east-1",
     "repoName": "GossipHunter",
     "repoUrl": "https://github.com/janakaud/GossipHunter",
-    "lastSave": 1523853990480
+    "lastSave": 1523856755118
   }
 }

@@ -24,7 +24,8 @@ exports.handler = function (event, context, callback) {
 							let titleLen = article.title.length;
 							let descrLen = article.description.length;
 							let urlLen = article.url.length;
-							let gossipText = title;
+
+							let gossipText = article.title;
 							if (gossipText.length + descrLen < 140) {
 								gossipText += "\n" + article.description;
 							}

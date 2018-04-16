@@ -22,8 +22,12 @@
         "children": [],
         "isRemovable": true,
         "filePath": "GossipHunter/lambda.js",
-        "code": "let AWS = require('aws-sdk');\nlet requests = require('requests');\n\nexports.handler = function(event, context, callback) {\n\trequests.get(\"https://newsapi.org/v2/top-headlines?sources=entertainment-weekly&apiKey=\")\n\t.then(response => {\nconsole.log(response);\n\t\tcallback(null,'Successfully executed');\n\t})\n}",
+        "code": "let AWS = require('aws-sdk');\nexports.handler = function(event, context, callback) {\n\trequests.get(`https://newsapi.org/v2/top-headlines?sources=entertainment-weekly&apiKey=${process.env.KEY}`)\n\t\t.then(response => {\n\n\t\t\tcallback(null,'Successfully executed');\n\t\t})\n}",
         "triggers": [
+          {
+            "resourceName": "cwegossipsWeekdays",
+            "config": {}
+          },
           {
             "resourceName": "cwegossipsWeekends",
             "config": {}
@@ -34,16 +38,9 @@
           "timeout": 60,
           "runtime": "nodejs8.10"
         },
-        "version": 148,
-        "syncVersion": 39,
-        "testCases": {
-          "7fe738ea-b193-45a7-86b9-15c885b067f9": {
-            "id": "7fe738ea-b193-45a7-86b9-15c885b067f9",
-            "name": "test",
-            "functionId": "8eccecc4-9205-4562-b2ed-f47d218465ce",
-            "event": "{}"
-          }
-        }
+        "version": 12,
+        "syncVersion": 56,
+        "testCases": {}
       }
     },
     "rootNode": "d43f3ad9-8dc7-4948-be3d-d9b296427b3d",
@@ -59,7 +56,7 @@
           "mode": 0,
           "name": "gossipsWeekdays",
           "description": "",
-          "scheduleExpression": "cron(0,15,30,45 5-7,19-23 * * MON-FRI *)"
+          "scheduleExpression": "cron(0/15 5-7,19-23 ? * MON-FRI *)"
         },
         "globallyEditable": true
       },
@@ -70,7 +67,7 @@
           "mode": 0,
           "name": "gossipsWeekends",
           "description": "",
-          "scheduleExpression": "cron(0/10 5-23 * * FRI *)"
+          "scheduleExpression": "cron(0/10 5-23 ? * SAT,SUN *)"
         },
         "globallyEditable": true
       }
@@ -80,7 +77,8 @@
         "lambdaId": "all",
         "varKey": "SIGMA_AWS_ACC_ID",
         "varValue": "",
-        "editable": false
+        "editable": false,
+        "isEditable": false
       },
       {
         "lambdaId": "8eccecc4-9205-4562-b2ed-f47d218465ce",
@@ -309,6 +307,6 @@
     "projectRegion": "us-east-1",
     "repoName": "GossipHunter",
     "repoUrl": "https://github.com/janakaud/GossipHunter",
-    "lastSave": 1523798760002
+    "lastSave": 1523852440465
   }
 }

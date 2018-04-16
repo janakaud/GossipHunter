@@ -1,4 +1,5 @@
 let AWS = require('aws-sdk');
+const sns = new AWS.SNS();
 const ddb = new AWS.DynamoDB.DocumentClient();
 let request = require('request');
 
@@ -15,12 +16,43 @@ exports.handler = function (event, context, callback) {
                     Key: { 'url': article.url }
                 }, function (err, data) {
                     if (err) {
-                        console.log(err);
+                        console.log(`Failed to check for ${article.url}`, err);
                     } else {
-                        console.log(data);
+                        if (data.Item) {    // match found
+                            console.log(`Gossip already dispatched: ${article.url}`);
+                        } else {
+                            sns.publish({
+                                Message: gossipText,
+                                MessageAttributes: {
+                                    'AWS.SNS.SMS.SMSType': {
+                                        DataType: 'String',
+                                        StringValue: 'Promotional'
+                                    },
+                                    'AWS.SNS.SMS.SenderID': {
+                                        DataType: 'String',
+                                        StringValue: 'GossipHunter'
+                                    },
+                                },
+                                PhoneNumber: process.env.PHONE
+                            }).promise()
+                                .then(data => {
+                                    ddb.put({
+                                        TableName: 'gossips',
+                                        Item: { 'url': article.url }
+                                    }, function (err, data) {
+                                        if (err) {
+                                            console.log(`Failed to save marker for ${article.url}`, err);
+                                        } else {
+                                            console.log(`Saved marker for ${article.url}`);
+                                        }
+                                    });
+                                })
+                                .catch(err => {
+                                    console.log(`Failed to dispatch SMS for ${article.url}`, err);
+                                });
+                        }
                     }
                 });
-
             });
 
             callback(null, 'Successfully executed');

@@ -21,6 +21,17 @@ exports.handler = function (event, context, callback) {
                         if (data.Item) {    // match found
                             console.log(`Gossip already dispatched: ${article.url}`);
                         } else {
+							let titleLen = article.title.length;
+							let descrLen = article.description.length;
+							let urlLen = article.url.length;
+							let gossipText = title;
+							if (gossipText.length + descrLen < 140) {
+								gossipText += "\n" + article.description;
+							}
+							if (gossipText.length + urlLen < 140) {
+								gossipText += "\n" + article.url;
+							}
+
                             sns.publish({
                                 Message: gossipText,
                                 MessageAttributes: {

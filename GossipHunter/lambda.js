@@ -1,8 +1,11 @@
 let AWS = require('aws-sdk');
-exports.handler = function(event, context, callback) {
-	requests.get(`https://newsapi.org/v2/top-headlines?sources=entertainment-weekly&apiKey=${process.env.KEY}`)
-		.then(response => {
+let request = require('request');
 
-			callback(null,'Successfully executed');
-		})
+exports.handler = function(event, context, callback) {
+	request.get(`https://newsapi.org/v2/top-headlines?sources=entertainment-weekly&apiKey=${process.env.KEY}`,
+    (error, response, body) => {
+console.log(body);
+
+        callback(null,'Successfully executed');
+    })
 }

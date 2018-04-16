@@ -42,7 +42,7 @@ exports.handler = function (event, context, callback) {
                                     },
                                     'AWS.SNS.SMS.SenderID': {
                                         DataType: 'String',
-                                        StringValue: 'GossipHunter'
+                                        StringValue: 'GossipHuntr'
                                     },
                                 },
                                 PhoneNumber: process.env.PHONE

@@ -23,16 +23,7 @@
         "isRemovable": true,
         "filePath": "GossipHunter/lambda.js",
         "code": "let AWS = require('aws-sdk');\nexports.handler = function(event, context, callback) {\n\trequests.get(`https://newsapi.org/v2/top-headlines?sources=entertainment-weekly&apiKey=${process.env.KEY}`)\n\t\t.then(response => {\n\n\t\t\tcallback(null,'Successfully executed');\n\t\t})\n}",
-        "triggers": [
-          {
-            "resourceName": "cwegossipsWeekdays",
-            "config": {}
-          },
-          {
-            "resourceName": "cwegossipsWeekends",
-            "config": {}
-          }
-        ],
+        "triggers": [],
         "config": {
           "memory": 128,
           "timeout": 60,
@@ -307,6 +298,6 @@
     "projectRegion": "us-east-1",
     "repoName": "GossipHunter",
     "repoUrl": "https://github.com/janakaud/GossipHunter",
-    "lastSave": 1523852440465
+    "lastSave": 1523852679371
   }
 }
